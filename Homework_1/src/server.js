@@ -5,7 +5,7 @@ import morgan from "morgan";
 import { connectDB } from "./db.js";
 import taskRoutes from "./routes/taskRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
-
+import authRoutes from "./routes/authRoutes.js";
 const app = express();
 
 // Middlewares
@@ -26,13 +26,13 @@ app.use(errorHandler);
 // Start
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI;
-
+app.use("/api/auth", authRoutes);
 (async () => {
   try {
     if (!MONGODB_URI) throw new Error("Missing MONGODB_URI in .env");
     await connectDB(MONGODB_URI);
     app.listen(PORT, () => {
-      console.log(`🚀 Server listening on http://localhost:${PORT}`);
+      console.log(`Server listening on http://localhost:${PORT}`);
     });
   } catch (err) {
     console.error("Fatal:", err.message);

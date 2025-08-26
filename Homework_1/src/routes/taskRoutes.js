@@ -6,8 +6,12 @@ import {
   updateTask,
   deleteTask
 } from "../controllers/taskController.js";
+import { authRequired } from "../middleware/auth.js";
 
 const router = Router();
+
+// tất cả endpoints dưới /api/tasks yêu cầu JWT
+router.use(authRequired);
 
 router.get("/", getTasks);
 router.post("/", createTask);
